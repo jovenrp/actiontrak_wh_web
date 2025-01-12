@@ -8,18 +8,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:universal_platform/universal_platform.dart';
 
 class NavigationBottomBar extends StatefulWidget {
-  const NavigationBottomBar({super.key, this.user});
-
-  final String? user;
+  const NavigationBottomBar({super.key});
 
   static const String routeName = '/navigationBottomBar';
   static const String screenName = 'navigationBottomBarScreen';
 
   static ModalRoute<NavigationBottomBar> route({String? user}) => MaterialPageRoute<NavigationBottomBar>(
         settings: const RouteSettings(name: routeName),
-        builder: (_) => NavigationBottomBar(
-          user: user,
-        ),
+        builder: (_) => const NavigationBottomBar(),
       );
 
   @override
@@ -36,7 +32,7 @@ class NavigationBottomBarState extends State<NavigationBottomBar> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    //context.read<DashboardBloc>().getCurrentUser();
+    context.read<NavigationBloc>().getCurrentUser();
   }
 
   @override
@@ -52,9 +48,9 @@ class NavigationBottomBarState extends State<NavigationBottomBar> {
             index: _currentIndex, // Shows the selected page
             children: [
               DashboardScreen(
-                user: widget.user,
+                user: state.user,
               ),
-              ProfileScreen(user: widget.user),
+              ProfileScreen(user: state.user),
               //SalesScreen(user: state.user,),
               //InventoryScreen(user: state.user,),
               //ProfileScreen(user: state.user),

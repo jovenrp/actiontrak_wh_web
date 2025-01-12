@@ -13,7 +13,7 @@ class NoData extends StatelessWidget {
     this.title = 'Oops!',
     this.message = 'No results at the moment',
     this.icon = Icons.inbox,  // Default icon
-    this.iconSize = 64.0,     // Default icon size
+    this.iconSize = 240.0,     // Default icon size
     this.iconColor = Colors.grey, // Default icon color
     this.textStyle,           // Optional custom text style
   });
@@ -23,12 +23,12 @@ class NoData extends StatelessWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Icon(
+        /*Icon(
           icon,
           size: iconSize,
           color: iconColor,
-        ),
-        const SizedBox(height: 10.0), // Space between icon and text
+        ),*/
+        Image.asset('assets/images/png/no_data.png', width: iconSize,),
         CustomHeader(
           text: title,
           fontWeight: FontWeight.w900,

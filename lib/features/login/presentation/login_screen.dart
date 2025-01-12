@@ -70,20 +70,13 @@ class LoginScreenState extends State<LoginScreen> {
           if (!state.loginStatus) {
             if (context.mounted) {
               Navigator.of(context).pop();
-              showDialog(
-                context: context,
-                builder: (BuildContext context) {
-                  return CustomDialog(
-                    type: IconType.error,
-                    title: 'Failed',
-                    content: state.loginMessage,
-                    confirmButtonText: 'Done',
-                    onConfirm: () {
-                      //Navigator.of(context).pop();
-                    },
-                  );
-                },
-              );
+              showCustomDialog(context, type: IconType.error,
+                title: 'Failed',
+                content: state.loginMessage,
+                confirmButtonText: 'Done',
+                onConfirm: () {
+                  Navigator.of(context).pop();
+                },);
             }
           } else {
             if (context.mounted) {
@@ -102,27 +95,20 @@ class LoginScreenState extends State<LoginScreen> {
                 password: password,
                 onTap: () {
                   if (context.mounted) {
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return CustomDialog(
-                          type: IconType.info,
-                          title: 'Login',
-                          content: 'Logging in, Please wait.',
-                          confirmButtonText: 'Cancel',
-                          extraWidget: const Center(
-                            child: SpinnerLoader(
-                              backgroundColor: AppColors.primary,
-                              strokeWidth: 50,
-                            ),
-                          ),
-                          noButton: true,
-                          onConfirm: () {
-                            //Navigator.of(context).pop();
-                          },
-                        );
-                      },
-                    );
+                    showCustomDialog(context, type: IconType.info,
+                      title: 'Login',
+                      content: 'Logging in, Please wait.',
+                      confirmButtonText: 'Cancel',
+                      extraWidget: const Center(
+                        child: SpinnerLoader(
+                          backgroundColor: AppColors.primary,
+                          strokeWidth: 50,
+                        ),
+                      ),
+                      noButton: true,
+                      onConfirm: () {
+                        Navigator.of(context).pop();
+                      },);
                   }
 
                   if (context.mounted) {
@@ -168,7 +154,6 @@ class LoginScreenState extends State<LoginScreen> {
                 ),
                 bottomNavigationBar: Container(
                   padding: const EdgeInsets.only(left: 20, right: 20),
-                  color: AppColors.background,
                   height: MediaQuery.of(context).size.height * .2,
                   child: Column(
                     children: [
@@ -176,27 +161,20 @@ class LoginScreenState extends State<LoginScreen> {
                         text: 'Login',
                         onPressed: () {
                           if (context.mounted) {
-                            showDialog(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return CustomDialog(
-                                  type: IconType.info,
-                                  title: 'Login',
-                                  content: 'Logging in, Please wait.',
-                                  confirmButtonText: 'Cancel',
-                                  extraWidget: const Center(
-                                    child: SpinnerLoader(
-                                      backgroundColor: AppColors.primary,
-                                      strokeWidth: 50,
-                                    ),
-                                  ),
-                                  noButton: true,
-                                  onConfirm: () {
-                                    //Navigator.of(context).pop();
-                                  },
-                                );
-                              },
-                            );
+                            showCustomDialog(context, type: IconType.info,
+                              title: 'Login',
+                              content: 'Logging in, Please wait.',
+                              confirmButtonText: 'Cancel',
+                              extraWidget: const Center(
+                                child: SpinnerLoader(
+                                  backgroundColor: AppColors.primary,
+                                  strokeWidth: 50,
+                                ),
+                              ),
+                              noButton: true,
+                              onConfirm: () {
+                                Navigator.of(context).pop();
+                              },);
                           }
 
                           if (context.mounted) {

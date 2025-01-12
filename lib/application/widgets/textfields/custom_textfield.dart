@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../../utils/app_colors.dart';
 
@@ -10,8 +11,12 @@ class CustomTextField extends StatefulWidget {
   final String? Function(String?)? validator;
   final String? Function(String?)? onChanged;
   final int? maxLines;
+  final List<TextInputFormatter>? inputFormatters;
+  final TextInputType? textInputType;
+  final FocusNode? focusNode;
 
-  const CustomTextField({super.key,
+  const CustomTextField({
+    super.key,
     required this.hintText,
     required this.icon,
     required this.controller,
@@ -19,6 +24,9 @@ class CustomTextField extends StatefulWidget {
     this.validator,
     this.onChanged,
     this.maxLines = 1,
+    this.inputFormatters,
+    this.textInputType,
+    this.focusNode,
   });
 
   @override
@@ -32,7 +40,11 @@ class CustomTextFieldState extends State<CustomTextField> {
   Widget build(BuildContext context) {
     return TextFormField(
       controller: widget.controller,
-      obscureText: widget.isPassword ? _isObscured : false, // Hide or show password
+      obscureText: widget.isPassword ? _isObscured : false,
+      // Hide or show password
+      inputFormatters: widget.inputFormatters ?? [],
+      keyboardType: widget.textInputType ?? TextInputType.text,
+      focusNode: widget.focusNode,
       decoration: InputDecoration(
         prefixIcon: Icon(widget.icon),
         hintText: widget.hintText,
@@ -43,21 +55,30 @@ class CustomTextFieldState extends State<CustomTextField> {
         fillColor: AppColors.primaryContrast,
         suffixIcon: widget.isPassword
             ? IconButton(
-          icon: Icon(
-            _isObscured ? Icons.visibility_off : Icons.visibility,
-          ),
-          onPressed: () {
-            setState(() {
-              _isObscured = !_isObscured; // Toggle the obscureText
-            });
-          },
-        )
+                icon: Icon(
+                  _isObscured ? Icons.visibility_off : Icons.visibility,
+                ),
+                onPressed: () {
+                  setState(() {
+                    _isObscured = !_isObscured; // Toggle the obscureText
+                  });
+                },
+              )
             : null,
       ),
-      validator: widget.validator ?? (String? value) {
-        return null;
-      },
+      validator: widget.validator ??
+          (String? value) {
+            return null;
+          },
       onChanged: widget.onChanged ?? (String? value) {},
+      onTap: () {
+        if (widget.focusNode != null) {
+          Future.delayed(const Duration(milliseconds: 500), () {
+            print('asdasd');
+            widget.focusNode?.requestFocus();
+          });
+        }
+      },
     );
   }
 }

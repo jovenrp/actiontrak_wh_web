@@ -21,6 +21,7 @@ NavigationState _$NavigationStateFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$NavigationState {
   bool get isLoading => throw _privateConstructorUsedError;
+  String? get user => throw _privateConstructorUsedError;
 
   /// Serializes this NavigationState to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -38,7 +39,7 @@ abstract class $NavigationStateCopyWith<$Res> {
           NavigationState value, $Res Function(NavigationState) then) =
       _$NavigationStateCopyWithImpl<$Res, NavigationState>;
   @useResult
-  $Res call({bool isLoading});
+  $Res call({bool isLoading, String? user});
 }
 
 /// @nodoc
@@ -57,12 +58,17 @@ class _$NavigationStateCopyWithImpl<$Res, $Val extends NavigationState>
   @override
   $Res call({
     Object? isLoading = null,
+    Object? user = freezed,
   }) {
     return _then(_value.copyWith(
       isLoading: null == isLoading
           ? _value.isLoading
           : isLoading // ignore: cast_nullable_to_non_nullable
               as bool,
+      user: freezed == user
+          ? _value.user
+          : user // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 }
@@ -75,7 +81,7 @@ abstract class _$$NavigationStateImplCopyWith<$Res>
       __$$NavigationStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({bool isLoading});
+  $Res call({bool isLoading, String? user});
 }
 
 /// @nodoc
@@ -92,12 +98,17 @@ class __$$NavigationStateImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? isLoading = null,
+    Object? user = freezed,
   }) {
     return _then(_$NavigationStateImpl(
       isLoading: null == isLoading
           ? _value.isLoading
           : isLoading // ignore: cast_nullable_to_non_nullable
               as bool,
+      user: freezed == user
+          ? _value.user
+          : user // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -105,7 +116,7 @@ class __$$NavigationStateImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$NavigationStateImpl implements _NavigationState {
-  _$NavigationStateImpl({this.isLoading = false});
+  _$NavigationStateImpl({this.isLoading = false, this.user = ''});
 
   factory _$NavigationStateImpl.fromJson(Map<String, dynamic> json) =>
       _$$NavigationStateImplFromJson(json);
@@ -113,10 +124,13 @@ class _$NavigationStateImpl implements _NavigationState {
   @override
   @JsonKey()
   final bool isLoading;
+  @override
+  @JsonKey()
+  final String? user;
 
   @override
   String toString() {
-    return 'NavigationState(isLoading: $isLoading)';
+    return 'NavigationState(isLoading: $isLoading, user: $user)';
   }
 
   @override
@@ -125,12 +139,13 @@ class _$NavigationStateImpl implements _NavigationState {
         (other.runtimeType == runtimeType &&
             other is _$NavigationStateImpl &&
             (identical(other.isLoading, isLoading) ||
-                other.isLoading == isLoading));
+                other.isLoading == isLoading) &&
+            (identical(other.user, user) || other.user == user));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, isLoading);
+  int get hashCode => Object.hash(runtimeType, isLoading, user);
 
   /// Create a copy of NavigationState
   /// with the given fields replaced by the non-null parameter values.
@@ -150,13 +165,16 @@ class _$NavigationStateImpl implements _NavigationState {
 }
 
 abstract class _NavigationState implements NavigationState {
-  factory _NavigationState({final bool isLoading}) = _$NavigationStateImpl;
+  factory _NavigationState({final bool isLoading, final String? user}) =
+      _$NavigationStateImpl;
 
   factory _NavigationState.fromJson(Map<String, dynamic> json) =
       _$NavigationStateImpl.fromJson;
 
   @override
   bool get isLoading;
+  @override
+  String? get user;
 
   /// Create a copy of NavigationState
   /// with the given fields replaced by the non-null parameter values.

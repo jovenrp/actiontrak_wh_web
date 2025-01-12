@@ -42,25 +42,22 @@ class ProfileContainer extends StatelessWidget {
         children: [
           CircleAvatar(
             radius: 50,
-            backgroundColor: Colors.blueAccent,
+            backgroundColor: AppColors.primaryAccent,
             child: CustomHeader(
               text: getInitials(name),
               fontSize: 44,
               color: AppColors.surface,
             ),
           ),
-          const SizedBox(height: 16),
-          Text(
-            name,
-            style: const TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-            ),
+          const SizedBox(height: 10),
+          CustomHeader(
+            text: name,
+            fontSize: 24,
           ),
           if (bio.isNotEmpty)
             CustomText(
               text: bio,
-              fontSize: 14,
+              fontSize: 16,
             ),
         ],
       ),
@@ -70,6 +67,7 @@ class ProfileContainer extends StatelessWidget {
   String getInitials(String name) {
     List<String> nameParts = name.split(' ');
     String initials = '';
+    print('--> ${nameParts[0][0]}');
     if (nameParts.length > 1) {
       initials = nameParts[0][0] + nameParts[1][0];
     } else {

@@ -1,13 +1,20 @@
+import 'package:actiontrak_wh/application/utils/app_colors.dart';
+import 'package:actiontrak_wh/application/utils/logic.dart';
+import 'package:actiontrak_wh/application/widgets/buttons/custom_button.dart';
+import 'package:actiontrak_wh/application/widgets/dialogs/custom_dialog.dart';
+import 'package:actiontrak_wh/application/widgets/textfields/custom_textfield.dart';
+import 'package:actiontrak_wh/application/widgets/texts/custom_header.dart';
 import 'package:actiontrak_wh/application/widgets/texts/custom_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class CustomCheckboxRow extends StatefulWidget {
-  final String itemId;
-  final String qtyReceived;
-  final String uom;
-  final int id; // Unique ID for each row
-  final int checkboxState; // State of the checkbox (0, 1, 2)
-  final ValueChanged<int> onCheckboxToggle; // Callback to update checkbox state
+  final String itemId, qtyReceived, uom;
+  final int id, checkboxState;
+  final ValueChanged<int> onCheckboxToggle;
+  final VoidCallback onPressed;
+  final TextEditingController controller;
+  final FocusNode focusNode;
 
   const CustomCheckboxRow({
     super.key,
@@ -17,6 +24,9 @@ class CustomCheckboxRow extends StatefulWidget {
     required this.id,
     required this.checkboxState,
     required this.onCheckboxToggle,
+    required this.onPressed,
+    required this.controller,
+    required this.focusNode,
   });
 
   @override
@@ -24,8 +34,7 @@ class CustomCheckboxRow extends StatefulWidget {
 }
 
 class CustomCheckboxRowState extends State<CustomCheckboxRow> {
-  bool _isExpanded = false; // Tracks whether the extra container is visible
-  final TextEditingController _textController = TextEditingController(); // TextField controller
+  bool _isExpanded = false;
 
   @override
   Widget build(BuildContext context) {
@@ -34,21 +43,26 @@ class CustomCheckboxRowState extends State<CustomCheckboxRow> {
 
     switch (widget.checkboxState) {
       case 1:
-        checkboxColor = Colors.orange;
+        checkboxColor = AppColors.warningOrange;
         checkboxIcon = Icons.check;
         break;
       case 2:
-        checkboxColor = Colors.green;
+        checkboxColor = AppColors.green;
         checkboxIcon = Icons.check;
         break;
       default:
-        checkboxColor = Colors.grey; // Default state
+        checkboxColor = AppColors.primaryAccent; // Default state
         checkboxIcon = Icons.check_box_outline_blank;
         break;
     }
 
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        CustomHeader(
+          text: 'SKU [${widget.itemId}]',
+          fontSize: 15,
+        ),
         GestureDetector(
           onTap: () {
             setState(() {
@@ -62,12 +76,12 @@ class CustomCheckboxRowState extends State<CustomCheckboxRow> {
                 children: [
                   CustomText(
                     text: widget.qtyReceived,
-                    fontSize: 16,
+                    fontSize: 17,
                     weight: FontWeight.bold,
                   ),
                   CustomText(
                     text: widget.uom,
-                    fontSize: 14,
+                    fontSize: 16,
                   ),
                 ],
               ),
@@ -104,7 +118,7 @@ class CustomCheckboxRowState extends State<CustomCheckboxRow> {
         AnimatedContainer(
           duration: const Duration(milliseconds: 100), // Animation duration
           curve: Curves.easeIn, // Apply ease-in curve
-          height: _isExpanded ? 150 : 0, // Animate height
+          height: _isExpanded ? 200 : 0, // Animate height
           child: _isExpanded
               ? SingleChildScrollView(
                   child: Padding(
@@ -112,23 +126,25 @@ class CustomCheckboxRowState extends State<CustomCheckboxRow> {
                     child: Container(
                       padding: const EdgeInsets.all(10.0),
                       decoration: BoxDecoration(
-                        color: Colors.grey[200], // Light background color
+                        color: AppColors.grey, // Light background color
                         borderRadius: BorderRadius.circular(8.0),
                       ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Text("Additional Information", style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
-                          const SizedBox(height: 8),
-                          const Text("Please provide more details:"),
-                          const SizedBox(height: 8),
-                          TextField(
-                            controller: _textController,
-                            decoration: const InputDecoration(
-                              border: OutlineInputBorder(),
-                              labelText: "Details",
-                            ),
+                          const CustomHeader(text: "Additional Information", fontSize: 16, fontWeight: FontWeight.bold,),
+                          const CustomText(text: "Enter the quantity you want to receive:", fontSize: 16),
+                          const SizedBox(height: 15),
+                          CustomTextField(
+                            focusNode: widget.focusNode,
+                            hintText: '0',
+                            icon: Icons.numbers,
+                            controller: widget.controller,
+                            textInputType: TextInputType.number,
+                            inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                           ),
+                          const SizedBox(height: 10),
+                          CustomButton(text: 'Submit', onPressed: widget.onPressed),
                         ],
                       ),
                     ),
@@ -142,7 +158,6 @@ class CustomCheckboxRowState extends State<CustomCheckboxRow> {
 
   @override
   void dispose() {
-    _textController.dispose(); // Dispose the controller when widget is removed
     super.dispose();
   }
 }

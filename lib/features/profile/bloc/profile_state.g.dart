@@ -11,6 +11,9 @@ _$ProfileStateImpl _$$ProfileStateImplFromJson(Map<String, dynamic> json) =>
       isLoading: json['isLoading'] as bool? ?? false,
       isUpdated: json['isUpdated'] as bool? ?? false,
       pickLimitSetting: json['pickLimitSetting'] as bool? ?? false,
+      hasError: json['hasError'] as bool? ?? false,
+      errorMessage: json['errorMessage'] as String? ?? '',
+      statusCode: json['statusCode'] as String? ?? '',
     );
 
 Map<String, dynamic> _$$ProfileStateImplToJson(_$ProfileStateImpl instance) =>
@@ -18,4 +21,7 @@ Map<String, dynamic> _$$ProfileStateImplToJson(_$ProfileStateImpl instance) =>
       'isLoading': instance.isLoading,
       'isUpdated': instance.isUpdated,
       'pickLimitSetting': instance.pickLimitSetting,
+      'hasError': instance.hasError,
+      'errorMessage': instance.errorMessage,
+      'statusCode': instance.statusCode,
     };

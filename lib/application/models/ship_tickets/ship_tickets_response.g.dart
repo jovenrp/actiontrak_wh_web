@@ -10,6 +10,9 @@ ShipTicketsResponse _$ShipTicketsResponseFromJson(Map<String, dynamic> json) =>
     ShipTicketsResponse(
       error: json['error'] as bool?,
       message: json['message'] as String?,
+      shipTickets: (json['shipTicketsModel'] as List<dynamic>?)
+          ?.map((e) => ShipTicketsData.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
 
 Map<String, dynamic> _$ShipTicketsResponseToJson(
@@ -17,4 +20,5 @@ Map<String, dynamic> _$ShipTicketsResponseToJson(
     <String, dynamic>{
       'error': instance.error,
       'message': instance.message,
+      'shipTicketsModel': instance.shipTickets,
     };

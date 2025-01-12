@@ -71,12 +71,11 @@ class CustomStatusWidget extends StatelessWidget {
                 borderRadius: BorderRadius.circular(100),
                 border: Border.all(width: 1, color: AppColors.warningOrange)),
             child: SizedBox(
-              width: 10,
-              height: 10,
+              width: size ?? 10,
+              height: size ?? 10,
               child: Container(
                 alignment: Alignment.center,
-                child:
-                    const CustomText(text: '!', fontSize: 8, color: AppColors.surface),
+                child: const CustomText(text: '!', fontSize: 15, color: AppColors.surface, weight: FontWeight.w900,),
               ),
             ),
           );

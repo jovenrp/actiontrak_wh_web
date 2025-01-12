@@ -1,4 +1,6 @@
+import 'package:actiontrak_wh/application/providers/error_bloc.dart';
 import 'package:actiontrak_wh/application/widgets/cards/profile_card.dart';
+import 'package:actiontrak_wh/application/widgets/dialogs/custom_dialog.dart';
 import 'package:actiontrak_wh/application/widgets/texts/custom_header.dart';
 import 'package:actiontrak_wh/features/login/presentation/login_screen.dart';
 import 'package:actiontrak_wh/features/profile/bloc/profile_bloc.dart';
@@ -42,6 +44,9 @@ class ProfileScreenState extends State<ProfileScreen> {
   Widget build(BuildContext context) {
     return BlocConsumer<ProfileBloc, ProfileState>(
       listener: (BuildContext context, ProfileState state) {
+        if (!state.isLoading && state.hasError) {
+          context.read<ErrorBloc>().showError(errorMessage: state.errorMessage, errorStatus: state.statusCode);
+        }
         if (!state.isLoading) {
           pickLimitSetting = state.pickLimitSetting;
         }
@@ -68,7 +73,7 @@ class ProfileScreenState extends State<ProfileScreen> {
                 ),
                 const SizedBox(height: 30,),
                 Container(
-                  padding: const EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 10),
+                  padding: const EdgeInsets.only(left: 20, right: 20, top: 5, bottom: 5),
                   decoration: BoxDecoration(
                     borderRadius: const BorderRadius.all(Radius.circular(10)),
                     color: AppColors.primaryContrast,
@@ -84,12 +89,12 @@ class ProfileScreenState extends State<ProfileScreen> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      const Icon(Icons.unfold_more_double_outlined),
+                      Image.asset('assets/images/png/overpick.png', width: 35,),
                       const SizedBox(width: 20,),
                       const CustomHeader(
                         text: 'Exceed Pick Limit',
                         color: AppColors.textColor,
-                        fontSize: 14,
+                        fontSize: 16,
                       ),
                       const Spacer(),
                       CupertinoSwitch(
@@ -108,17 +113,28 @@ class ProfileScreenState extends State<ProfileScreen> {
                 const Spacer(),
                 CustomButtonContainer(
                   text: 'Sign Out',
-                  icons: Icons.logout_outlined,
+                  icons: 'assets/images/png/logout.png',
                   onPressed: (){
-                    context
-                        .read<ProfileBloc>()
-                        .logout().then((value) {
+                    showCustomDialog(
+                      context,
+                      type: IconType.warning,
+                      title: 'Are you sure?',
+                      content: 'Signing out will lose your current session',
+                      confirmButtonText: 'Sign Out',
+                      onConfirm: () {
+                        context
+                            .read<ProfileBloc>()
+                            .logout().then((value) {
                           if (context.mounted) {
                             Navigator.of(context).pushReplacement(
                               LoginScreen.route(),
                             );
                           }
-                    });
+                        });
+                      },
+                      cancelButtonText: 'Cancel',
+                    );
+
                   },
                 ),
                 const SizedBox(height: 50,),

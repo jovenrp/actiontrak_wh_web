@@ -21,42 +21,20 @@ class LoginBloc extends Cubit<LoginState> {
         path: CustomApi.login(uid: username, pwd: password),
       );
 
+      print('---> ${CustomApi.login(uid: username, pwd: password)}');
       Future.delayed(const Duration(seconds: 1), () {
         if (response.statusCode == 200) {
           saveString('token', response.toString());
           saveString('user', username);
+          saveInt('loginTime', DateTime.now().millisecondsSinceEpoch);
           emit(state.copyWith(isLoading: false, loginStatus: true, loginMessage: '${response.data}'));
         } else {
           emit(state.copyWith(isLoading: false, loginStatus: false, loginMessage: response.data.toString()));
         }
       });
     } catch (err) {
+      print('--> '+err.toString());
       emit(state.copyWith(isLoading: false, loginStatus: false, loginMessage: 'Something went wrong.'));
     }
-    //
-    /*List<UserHive> users = repository.getAllUsers();
-
-    bool userExist = false;
-    bool passwordMatch = false;
-    UserData? userData;
-    for (var item in users) {
-      if (username == item.nickname) {
-        userExist = true;
-        if (password == item.password) {
-          passwordMatch = true;
-          userData = item.toUserData();
-        }
-      }
-    }
-
-    if (userExist) {
-      if (passwordMatch) {
-        emit(state.copyWith(loginStatus: true, loginMessage: '', user: userData));
-      } else {
-        emit(state.copyWith(loginStatus: false, loginMessage: 'Wrong password'));
-      }
-    } else {
-      emit(state.copyWith(loginStatus: false, loginMessage: 'Username does not exist'));
-    }*/
   }
 }

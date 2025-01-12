@@ -46,7 +46,7 @@ class DashboardWebView extends StatelessWidget {
                         crossAxisCount: 2, // Two items per row
                         crossAxisSpacing: 15,
                         mainAxisSpacing: 15,
-                        childAspectRatio: 1.0, // Aspect ratio of the grid items
+                        childAspectRatio: 0.9, // Aspect ratio of the grid items
                       ),
                       itemCount: items?.length,
                       itemBuilder: (context, index) {
@@ -54,9 +54,10 @@ class DashboardWebView extends StatelessWidget {
                           child: CustomIconButton(
                             icon: items?[index]['icon'],
                             label: items?[index]['label'],
+                            turn: items?[index]['label'] == 'Pick\nTickets' ? 2 : 0,
                             onTap: items?[index]['onTap'],
-                            textSize: 14,
-                            iconSize: 30,
+                            textSize: 15,
+                            iconSize: 45,
                             isActive: items?[index]['isActive'],
                           ),
                         );

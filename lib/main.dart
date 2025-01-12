@@ -1,4 +1,10 @@
 
+import 'dart:async';
+
+import 'package:actiontrak_wh/application/providers/error_bloc.dart';
+import 'package:actiontrak_wh/application/providers/error_state.dart';
+import 'package:actiontrak_wh/application/utils/app_colors_dark.dart';
+import 'package:actiontrak_wh/application/widgets/dialogs/custom_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -17,7 +23,7 @@ import 'features/splash/bloc/splash_bloc.dart';
 import 'features/splash/bloc/splash_state.dart';
 import 'features/splash/presentation/splash_screen.dart';
 
-void main() async {
+FutureOr<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   /*await Hive.initFlutter();
   Hive.registerAdapter(UserHiveAdapter());
@@ -66,7 +72,7 @@ class MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    final List<SingleChildWidget> blocs = BlocsProvider.provide(persistenceService: widget.persistenceService,);
+    final List<SingleChildWidget> blocs = BlocsProvider.provide();
 
     List<SingleChildWidget> providers = <SingleChildWidget>[
       ...blocs,
@@ -79,17 +85,29 @@ class MyAppState extends State<MyApp> {
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: MultiProvider(
         providers: providers,
-        child: BlocConsumer<SplashBloc, SplashState>(
-          listener: (BuildContext context, SplashState state) {
-            // Handle
-            if (!state.isLoading) {
+        child: BlocConsumer<ErrorBloc, ErrorState>(
+          listener: (BuildContext context, ErrorState state) {
 
+            if (!state.isLoading && state.hasError) {
+              WidgetsBinding.instance.addPostFrameCallback((_) {
+                showCustomDialog(
+                  navigatorKey.currentState!.context,
+                  type: IconType.error,
+                  title: 'Failed',
+                  content: state.errorMessage,
+                  confirmButtonText: 'Close',
+                  onConfirm: () {
+                    Navigator.of(navigatorKey.currentState!.context).pop();
+                  },
+                );
+              });
             }
           },
           builder: (BuildContext context, __) => MaterialApp(
             navigatorKey: navigatorKey,
             debugShowCheckedModeBanner: false,
-            theme: taskAppTheme(),
+            theme: lightMode(),
+            themeMode: ThemeMode.system,
             home: const SplashScreen(),
           ),
         ),
@@ -98,8 +116,87 @@ class MyAppState extends State<MyApp> {
   }
 
 
-  ThemeData taskAppTheme() {
+  ThemeData lightMode() {
     return ThemeData(
+      // Defining the ColorScheme using theme variables from the loaded theme
+      colorScheme: ColorScheme(
+        primary: Color(0xFF2196F3),
+        secondary: Color(0xFF03DAC6), // Bright Green for success actions
+        surface: Color(0xFFF5F5F5), // White for surface areas (e.g., cards)
+        onPrimary: Color(0xFFFFFFFF), // White text on primary elements
+        onSecondary: Color(0xFF000000), // White text on secondary elements
+        error: Color(0xFFB00020), // Soft Red for errors
+        onError: Color(0xFFFFFFFF), // White text on error elements
+        onSurface: Color(0xFF000000), // Dark Gray for text on surfaces
+        brightness: Brightness.light, // Define light theme
+      ),
+
+      scaffoldBackgroundColor: Color(0xFFF5F5F5), // Set background color
+
+      // App bar theme using theme data from loaded theme
+      appBarTheme: AppBarTheme(
+        backgroundColor: Color(0xFF2196F3),
+        titleTextStyle: TextStyle(
+          color: Color(0xFFFFFFFF),
+          fontSize: 20,
+          fontWeight: FontWeight.bold,
+        ),
+        iconTheme: IconThemeData(color: Color(0xFFFFFFFF)), // White icons in AppBar
+      ),
+
+      // Button theme using theme data
+      elevatedButtonTheme: ElevatedButtonThemeData(
+        style: ElevatedButton.styleFrom(
+          backgroundColor: Color(0xFF2196F3), // Soft Blue for buttons
+          foregroundColor: Color(0xFFFFFFFF),
+          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+          textStyle: const TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ),
+
+      // Floating Action Button theme using theme data
+      floatingActionButtonTheme: FloatingActionButtonThemeData(
+        backgroundColor: Color(0xFF03DAC6), // Soft Blue FAB
+        foregroundColor: Color(0xFFFFFFFF), // White icon
+      ),
+
+      // Bottom navigation bar theme
+      bottomNavigationBarTheme: BottomNavigationBarThemeData(
+        backgroundColor: Color(0xFFFFFFFF), // White for bottom navigation bar
+        selectedItemColor: Color(0xFF2196F3), // Soft Blue for selected items
+        unselectedItemColor: Color(0xFF03DAC6), // Light Gray for unselected items
+      ),
+
+      // Input decoration theme for text fields
+      inputDecorationTheme: InputDecorationTheme(
+        filled: true,
+        fillColor: Color(0xFFFFFFFF), // White background for input fields
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(20),
+          borderSide: BorderSide(
+            color: Color(0xFFCCCCCC), // Light Gray border
+          ),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(20),
+          borderSide: BorderSide(
+            color: Color(0xFFCCCCCC), // Light Gray border
+          ),
+        ),
+        hintStyle: TextStyle(
+          color: Color(0xFF9E9E9E), // Light Gray hint text
+        ),
+      ),
+
+      progressIndicatorTheme: ProgressIndicatorThemeData(
+        color: Color(0xFF2196F3), // Bright Green for progress indicators
+      ),
+    );
+
+    /*return ThemeData(
       // Defining the ColorScheme using AppColors
       colorScheme: const ColorScheme(
         primary: AppColors.primary, // Soft Blue
@@ -175,7 +272,76 @@ class MyAppState extends State<MyApp> {
       progressIndicatorTheme: const ProgressIndicatorThemeData(
         color: AppColors.success, // Bright Green for progress indicators
       ),
+    );*/
+  }
+
+  ThemeData darkMode() {
+    return ThemeData(
+      colorScheme: const ColorScheme(
+        primary: AppColorsDark.primary,
+        secondary: AppColorsDark.success,
+        surface: AppColorsDark.surface,
+        onPrimary: AppColorsDark.primaryContrast,
+        onSecondary: AppColorsDark.primaryContrast,
+        error: AppColorsDark.error,
+        onError: AppColorsDark.primaryContrast,
+        onSurface: AppColorsDark.textColor,
+        brightness: Brightness.dark,
+      ),
+      scaffoldBackgroundColor: AppColorsDark.background,
+      appBarTheme: const AppBarTheme(
+        backgroundColor: AppColorsDark.primary,
+        titleTextStyle: TextStyle(
+          color: AppColorsDark.primaryContrast,
+          fontSize: 20,
+          fontWeight: FontWeight.bold,
+        ),
+        iconTheme: IconThemeData(color: AppColorsDark.primaryContrast),
+      ),
+      elevatedButtonTheme: ElevatedButtonThemeData(
+        style: ElevatedButton.styleFrom(
+          backgroundColor: AppColorsDark.primary,
+          foregroundColor: AppColorsDark.primaryContrast,
+          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+          textStyle: const TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ),
+      floatingActionButtonTheme: const FloatingActionButtonThemeData(
+        backgroundColor: AppColorsDark.primary,
+        foregroundColor: AppColorsDark.primaryContrast,
+      ),
+      bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+        backgroundColor: AppColorsDark.surface,
+        selectedItemColor: AppColorsDark.primary,
+        unselectedItemColor: AppColorsDark.secondaryText,
+      ),
+      inputDecorationTheme: InputDecorationTheme(
+        filled: true,
+        fillColor: AppColorsDark.surface,
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(20),
+          borderSide: const BorderSide(
+            color: AppColorsDark.secondaryText,
+          ),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(20),
+          borderSide: const BorderSide(
+            color: AppColorsDark.secondaryText,
+          ),
+        ),
+        hintStyle: const TextStyle(
+          color: AppColorsDark.secondaryText,
+        ),
+      ),
+      progressIndicatorTheme: const ProgressIndicatorThemeData(
+        color: AppColorsDark.success,
+      ),
     );
   }
+
 
 }

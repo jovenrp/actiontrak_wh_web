@@ -44,6 +44,7 @@ class AppColors {
   static const Color darkText = Color(0xFFEAF5FF);
   static const Color lightText = Color(0xFFFFFFFF);
   static const Color headerGrey = Color(0xff7E8289);
+  static Color? grey = Colors.grey[200];
   static const Color warningOrange = Color(0xFFFFB443);
   static const Color green = Colors.green;
   static const Color criticalRed = Color(0xFFE44545);

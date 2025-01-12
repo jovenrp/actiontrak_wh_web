@@ -9,13 +9,14 @@ class CustomButtonContainer extends StatelessWidget {
     this.textColor,
     this.icons,
     this.text,
+    this.subtitle,
     this.bgColor,
     required this.onPressed,
   });
 
   final Color? colors, textColor, bgColor;
-  final IconData? icons;
-  final String? text;
+  final String? icons;
+  final String? text, subtitle;
   final VoidCallback onPressed;
 
   @override
@@ -38,14 +39,28 @@ class CustomButtonContainer extends StatelessWidget {
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Icon(icons ?? Icons.payments_outlined),
+            Image.asset(icons ?? '', width: 25,),
             const SizedBox(width: 20,),
-            CustomHeader(
-              text: text,
-              color: textColor ?? AppColors.textColor,
-              fontSize: 14,
-            )
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  CustomHeader(
+                    text: text,
+                    color: textColor ?? AppColors.textColor,
+                    fontSize: 16,
+                  ),
+                  subtitle?.isNotEmpty == true ? CustomHeader(
+                    text: subtitle,
+                    color: textColor ?? AppColors.textColor,
+                    fontSize: 14,
+                    fontWeight: FontWeight.w500,
+                  ) : const SizedBox.shrink(),
+                ],
+              ),
+            ),
           ],
         ),
       ),

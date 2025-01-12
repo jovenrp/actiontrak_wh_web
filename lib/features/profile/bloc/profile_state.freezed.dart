@@ -23,6 +23,9 @@ mixin _$ProfileState {
   bool get isLoading => throw _privateConstructorUsedError;
   bool get isUpdated => throw _privateConstructorUsedError;
   bool get pickLimitSetting => throw _privateConstructorUsedError;
+  bool get hasError => throw _privateConstructorUsedError;
+  String? get errorMessage => throw _privateConstructorUsedError;
+  String? get statusCode => throw _privateConstructorUsedError;
 
   /// Serializes this ProfileState to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -40,7 +43,13 @@ abstract class $ProfileStateCopyWith<$Res> {
           ProfileState value, $Res Function(ProfileState) then) =
       _$ProfileStateCopyWithImpl<$Res, ProfileState>;
   @useResult
-  $Res call({bool isLoading, bool isUpdated, bool pickLimitSetting});
+  $Res call(
+      {bool isLoading,
+      bool isUpdated,
+      bool pickLimitSetting,
+      bool hasError,
+      String? errorMessage,
+      String? statusCode});
 }
 
 /// @nodoc
@@ -61,6 +70,9 @@ class _$ProfileStateCopyWithImpl<$Res, $Val extends ProfileState>
     Object? isLoading = null,
     Object? isUpdated = null,
     Object? pickLimitSetting = null,
+    Object? hasError = null,
+    Object? errorMessage = freezed,
+    Object? statusCode = freezed,
   }) {
     return _then(_value.copyWith(
       isLoading: null == isLoading
@@ -75,6 +87,18 @@ class _$ProfileStateCopyWithImpl<$Res, $Val extends ProfileState>
           ? _value.pickLimitSetting
           : pickLimitSetting // ignore: cast_nullable_to_non_nullable
               as bool,
+      hasError: null == hasError
+          ? _value.hasError
+          : hasError // ignore: cast_nullable_to_non_nullable
+              as bool,
+      errorMessage: freezed == errorMessage
+          ? _value.errorMessage
+          : errorMessage // ignore: cast_nullable_to_non_nullable
+              as String?,
+      statusCode: freezed == statusCode
+          ? _value.statusCode
+          : statusCode // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 }
@@ -87,7 +111,13 @@ abstract class _$$ProfileStateImplCopyWith<$Res>
       __$$ProfileStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({bool isLoading, bool isUpdated, bool pickLimitSetting});
+  $Res call(
+      {bool isLoading,
+      bool isUpdated,
+      bool pickLimitSetting,
+      bool hasError,
+      String? errorMessage,
+      String? statusCode});
 }
 
 /// @nodoc
@@ -106,6 +136,9 @@ class __$$ProfileStateImplCopyWithImpl<$Res>
     Object? isLoading = null,
     Object? isUpdated = null,
     Object? pickLimitSetting = null,
+    Object? hasError = null,
+    Object? errorMessage = freezed,
+    Object? statusCode = freezed,
   }) {
     return _then(_$ProfileStateImpl(
       isLoading: null == isLoading
@@ -120,6 +153,18 @@ class __$$ProfileStateImplCopyWithImpl<$Res>
           ? _value.pickLimitSetting
           : pickLimitSetting // ignore: cast_nullable_to_non_nullable
               as bool,
+      hasError: null == hasError
+          ? _value.hasError
+          : hasError // ignore: cast_nullable_to_non_nullable
+              as bool,
+      errorMessage: freezed == errorMessage
+          ? _value.errorMessage
+          : errorMessage // ignore: cast_nullable_to_non_nullable
+              as String?,
+      statusCode: freezed == statusCode
+          ? _value.statusCode
+          : statusCode // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -130,7 +175,10 @@ class _$ProfileStateImpl implements _ProfileState {
   _$ProfileStateImpl(
       {this.isLoading = false,
       this.isUpdated = false,
-      this.pickLimitSetting = false});
+      this.pickLimitSetting = false,
+      this.hasError = false,
+      this.errorMessage = '',
+      this.statusCode = ''});
 
   factory _$ProfileStateImpl.fromJson(Map<String, dynamic> json) =>
       _$$ProfileStateImplFromJson(json);
@@ -144,10 +192,19 @@ class _$ProfileStateImpl implements _ProfileState {
   @override
   @JsonKey()
   final bool pickLimitSetting;
+  @override
+  @JsonKey()
+  final bool hasError;
+  @override
+  @JsonKey()
+  final String? errorMessage;
+  @override
+  @JsonKey()
+  final String? statusCode;
 
   @override
   String toString() {
-    return 'ProfileState(isLoading: $isLoading, isUpdated: $isUpdated, pickLimitSetting: $pickLimitSetting)';
+    return 'ProfileState(isLoading: $isLoading, isUpdated: $isUpdated, pickLimitSetting: $pickLimitSetting, hasError: $hasError, errorMessage: $errorMessage, statusCode: $statusCode)';
   }
 
   @override
@@ -160,13 +217,19 @@ class _$ProfileStateImpl implements _ProfileState {
             (identical(other.isUpdated, isUpdated) ||
                 other.isUpdated == isUpdated) &&
             (identical(other.pickLimitSetting, pickLimitSetting) ||
-                other.pickLimitSetting == pickLimitSetting));
+                other.pickLimitSetting == pickLimitSetting) &&
+            (identical(other.hasError, hasError) ||
+                other.hasError == hasError) &&
+            (identical(other.errorMessage, errorMessage) ||
+                other.errorMessage == errorMessage) &&
+            (identical(other.statusCode, statusCode) ||
+                other.statusCode == statusCode));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, isLoading, isUpdated, pickLimitSetting);
+  int get hashCode => Object.hash(runtimeType, isLoading, isUpdated,
+      pickLimitSetting, hasError, errorMessage, statusCode);
 
   /// Create a copy of ProfileState
   /// with the given fields replaced by the non-null parameter values.
@@ -188,7 +251,10 @@ abstract class _ProfileState implements ProfileState {
   factory _ProfileState(
       {final bool isLoading,
       final bool isUpdated,
-      final bool pickLimitSetting}) = _$ProfileStateImpl;
+      final bool pickLimitSetting,
+      final bool hasError,
+      final String? errorMessage,
+      final String? statusCode}) = _$ProfileStateImpl;
 
   factory _ProfileState.fromJson(Map<String, dynamic> json) =
       _$ProfileStateImpl.fromJson;
@@ -199,6 +265,12 @@ abstract class _ProfileState implements ProfileState {
   bool get isUpdated;
   @override
   bool get pickLimitSetting;
+  @override
+  bool get hasError;
+  @override
+  String? get errorMessage;
+  @override
+  String? get statusCode;
 
   /// Create a copy of ProfileState
   /// with the given fields replaced by the non-null parameter values.

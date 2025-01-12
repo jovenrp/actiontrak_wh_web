@@ -1,9 +1,17 @@
+import 'package:actiontrak_wh/application/models/location_mapper/container_data.dart';
 import 'package:actiontrak_wh/application/widgets/buttons/custom_icon_button.dart';
+import 'package:actiontrak_wh/features/container_move/presentation/container_move_screen.dart';
 import 'package:actiontrak_wh/features/dashboard/bloc/dashboard_bloc.dart';
 import 'package:actiontrak_wh/features/dashboard/bloc/dashboard_state.dart';
-import 'package:actiontrak_wh/features/pick_tickets/presentation/pick_tickets_screen.dart';
-import 'package:actiontrak_wh/features/receive_tickets/presentation/receive_tickets_screen.dart';
-import 'package:actiontrak_wh/features/ship_tickets/presentation/ship_tickets_screen.dart';
+import 'package:actiontrak_wh/features/item_lookup/presentation/item_lookup_screen.dart';
+import 'package:actiontrak_wh/features/location_mapper/presentation/location_mapper_screen.dart';
+import 'package:actiontrak_wh/features/profile/presentation/profile_screen.dart';
+import 'package:actiontrak_wh/features/stocks/stock_adjust/presentation/stock_adjust_screen.dart';
+import 'package:actiontrak_wh/features/stocks/stock_count/presentation/stock_count_screen.dart';
+import 'package:actiontrak_wh/features/stocks/stock_move/presentation/stock_move_screen.dart';
+import 'package:actiontrak_wh/features/tickets/pick_tickets/presentation/pick_tickets_screen.dart';
+import 'package:actiontrak_wh/features/tickets/receive_tickets/presentation/receive_tickets_screen.dart';
+import 'package:actiontrak_wh/features/tickets/ship_tickets/presentation/ship_tickets_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:universal_platform/universal_platform.dart';
@@ -45,7 +53,7 @@ class DashboardScreenState extends State<DashboardScreen> {
     super.initState();
     items = [
       {
-        'icon': Icons.note_alt_outlined,
+        'icon': 'assets/images/png/tickets.png',
         'label': 'Pick\nTickets',
         'onTap': UniversalPlatform.isWeb
             ? () {
@@ -59,7 +67,7 @@ class DashboardScreenState extends State<DashboardScreen> {
         'isActive': true,
       },
       {
-        'icon': Icons.sticky_note_2_outlined,
+        'icon': 'assets/images/png/tickets.png',
         'label': 'Purchase\nOrders',
         'onTap': UniversalPlatform.isWeb
             ? () {
@@ -73,69 +81,124 @@ class DashboardScreenState extends State<DashboardScreen> {
         'isActive': true,
       },
       {
-        'icon': Icons.local_shipping_outlined,
+        'icon': 'assets/images/png/ship_container.png',
         'label': 'Ship\n',
         'onTap': UniversalPlatform.isWeb
             ? () {
+                setState(() {
+                  screenIndex = 2;
+                });
+              }
+            : () {
+                Navigator.of(context).push(ShipTicketsScreen.route());
+              },
+        'isActive': true,
+      },
+      {
+        'icon': 'assets/images/png/location_mapper.png',
+        'label': 'Location\nMapper',
+        'onTap': UniversalPlatform.isWeb
+            ? () {
+                setState(() {
+                  screenIndex = 3;
+                });
+              }
+            : () {
+                Navigator.of(context).push(LocationMapperScreen.route(
+                  //parentId: '462',
+                  //status: 'parent',
+                  parentId: 'root',
+                  status: 'children',
+                  id: '',
+                  containerData: const ContainerData(),
+                ));
+              },
+        'isActive': true,
+      },
+      {
+        'icon': 'assets/images/png/stock_count.png',
+        'label': 'Stock\nCount',
+        'onTap': UniversalPlatform.isWeb
+            ? () {
+                setState(() {
+                  screenIndex = 4;
+                });
+              }
+            : () {
+                Navigator.of(context).push(StockCountScreen.route());
+              },
+        'isActive': true,
+      },
+      {
+        'icon': 'assets/images/png/item_lookup.png',
+        'label': 'Item\nLookup',
+        'onTap': UniversalPlatform.isWeb
+            ? () {
+                setState(() {
+                  screenIndex = 5;
+                });
+              }
+            : () {
+                Navigator.of(context).push(ItemLookupScreen.route());
+              },
+        'isActive': true,
+      },
+      {
+        'icon': 'assets/images/png/stock_adjust.png',
+        'label': 'Stock\nAdjust',
+        'onTap': UniversalPlatform.isWeb
+            ? () {
+                setState(() {
+                  screenIndex = 6;
+                });
+              }
+            : () {
+                Navigator.of(context).push(StockAdjustScreen.route());
+              },
+        'isActive': true,
+      },
+      {
+        'icon': 'assets/images/png/stock_move.png',
+        'label': 'Stock\nMove',
+        'onTap': UniversalPlatform.isWeb
+            ? () {
           setState(() {
-            screenIndex = 2;
+            screenIndex = 7;
           });
         }
             : () {
-          Navigator.of(context).push(ShipTicketsScreen.route());
+          Navigator.of(context).push(StockMoveScreen.route());
         },
         'isActive': true,
       },
       {
-        'icon': Icons.location_on_outlined,
-        'label': 'Location\nMapper',
-        'onTap': () {},
-        'isActive': true,
-      },
-      {
-        'icon': Icons.numbers,
-        'label': 'Stock\nCount',
-        'onTap': () {},
-        'isActive': true,
-      },
-      {
-        'icon': Icons.search,
-        'label': 'Item\nLookup',
-        'onTap': () {},
-        'isActive': true,
-      },
-      {
-        'icon': Icons.adjust,
-        'label': 'Stock\nAdjust',
-        'onTap': () {},
-        'isActive': true,
-      },
-      {
-        'icon': Icons.fire_truck_outlined,
-        'label': 'Stock\nMove',
-        'onTap': () {},
-        'isActive': true,
-      },
-      {
-        'icon': Icons.move_up_outlined,
+        'icon': 'assets/images/png/container_move.png',
         'label': 'Container\nMove',
-        'onTap': () {},
+        'onTap': UniversalPlatform.isWeb
+            ? () {
+          setState(() {
+            screenIndex = 8;
+          });
+        }
+            : () {
+          Navigator.of(context).push(ContainerMoveScreen.route());
+        },
         'isActive': true,
       },
       {
-        'icon': Icons.leak_remove,
+        'icon': 'assets/images/png/stock_consume.png',
         'label': 'Stock\nConsume',
         'onTap': () {},
         'isActive': false,
       },
       {
-        'icon': Icons.move_down_outlined,
+        'icon': 'assets/images/png/stock_receive.png',
         'label': 'Stock\nReceive',
         'onTap': () {},
         'isActive': false,
       },
       {
-        'icon': Icons.move_to_inbox_outlined,
+        'icon': 'assets/images/png/stock_ship.png',
         'label': 'Stock\nShip',
         'onTap': () {},
         'isActive': false,
@@ -146,6 +209,13 @@ class DashboardScreenState extends State<DashboardScreen> {
       const PickTicketsScreen(),
       const ReceiveTicketsScreen(),
       const ShipTicketsScreen(),
+      const LocationMapperScreen(),
+      const StockCountScreen(),
+      const ItemLookupScreen(),
+      const StockAdjustScreen(),
+      const StockMoveScreen(),
+      const ContainerMoveScreen(),
+      const ProfileScreen(),
     ];
   }
 
@@ -190,16 +260,17 @@ class DashboardScreenState extends State<DashboardScreen> {
                               crossAxisCount: 3, // Two items per row
                               crossAxisSpacing: 15,
                               mainAxisSpacing: 15,
-                              childAspectRatio: 1.0, // Aspect ratio of the grid items
+                              childAspectRatio: .9, // Aspect ratio of the grid items
                             ),
                             itemCount: items.length,
                             itemBuilder: (context, index) {
                               return CustomIconButton(
                                 icon: items[index]['icon'],
+                                turn: items[index]['label'] == 'Pick\nTickets' ? 2 : 0,
                                 label: items[index]['label'],
                                 onTap: items[index]['onTap'],
-                                textSize: 14,
-                                iconSize: 30,
+                                textSize: 15,
+                                iconSize: 45,
                                 isActive: items[index]['isActive'],
                               );
                             },

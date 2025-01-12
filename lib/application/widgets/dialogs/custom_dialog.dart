@@ -23,18 +23,17 @@ class CustomDialog extends StatelessWidget {
   final Widget? extraWidget;
   final bool noButton;
 
-  const CustomDialog({
-    super.key,
-    this.type,
-    required this.title,
-    required this.content,
-    required this.confirmButtonText,
-    this.cancelButtonText,
-    required this.onConfirm,
-    this.onCancel,
-    this.extraWidget,
-    this.noButton = false
-  });
+  const CustomDialog(
+      {super.key,
+      this.type,
+      required this.title,
+      required this.content,
+      required this.confirmButtonText,
+      this.cancelButtonText,
+      required this.onConfirm,
+      this.onCancel,
+      this.extraWidget,
+      this.noButton = false});
 
   @override
   Widget build(BuildContext context) {
@@ -107,21 +106,27 @@ class CustomDialog extends StatelessWidget {
                 const SizedBox(
                   height: 30,
                 ),
+                noButton
+                  ? const SizedBox.shrink()
+                  : CustomButton(
+                  text: confirmButtonText,
+                  onPressed: () {
+                    onConfirm();
+                    //Navigator.of(context).pop();
+                  }),
+              const SizedBox(
+                height: 5,
+              ),
                 if (cancelButtonText != null)
                   CustomButton(
                       text: cancelButtonText!,
+                      isSecondaryButton: true,
                       onPressed: () {
                         if (onCancel != null) {
                           onCancel!();
                         }
                         Navigator.of(context).pop();
                       }),
-                noButton ? const SizedBox.shrink() : CustomButton(
-                    text: confirmButtonText,
-                    onPressed: () {
-                      onConfirm();
-                      Navigator.of(context).pop();
-                    })
               ],
             ),
           ),
@@ -129,4 +134,33 @@ class CustomDialog extends StatelessWidget {
       ),
     );
   }
+}
+
+void showCustomDialog(BuildContext context,
+    {required String title,
+    required String content,
+    required String confirmButtonText,
+    String? cancelButtonText,
+    required VoidCallback onConfirm,
+    VoidCallback? onCancel,
+    IconType? type,
+    Widget? extraWidget,
+    bool noButton = false}) {
+  showDialog(
+    context: context,
+    barrierDismissible: false,
+    builder: (BuildContext context) {
+      return CustomDialog(
+        type: type,
+        title: title,
+        content: content,
+        confirmButtonText: confirmButtonText,
+        onConfirm: onConfirm,
+        noButton: noButton,
+        extraWidget: extraWidget,
+        cancelButtonText: cancelButtonText,
+        onCancel: onCancel,
+      );
+    },
+  );
 }

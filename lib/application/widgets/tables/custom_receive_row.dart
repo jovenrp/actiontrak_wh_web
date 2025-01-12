@@ -4,10 +4,9 @@ import 'package:actiontrak_wh/application/widgets/texts/custom_text.dart';
 import 'package:flutter/material.dart';
 
 class CustomReceiveRow extends StatelessWidget {
-  final String? orderNumber, location, lines, status;
+  final String? orderNumber, location, lines, status, isPartial;
   final int turns;
   final double size;
-  final String isPartial;
   final bool isOdd;
 
   const CustomReceiveRow({
@@ -43,15 +42,15 @@ class CustomReceiveRow extends StatelessWidget {
           ),
           Expanded(
             flex: 2,
-            child: CustomText(text: orderNumber?.isNotEmpty == true ? 'PO-$orderNumber' : orderNumber.toString(), textAlign: TextAlign.left, fontSize: 16,),
+            child: CustomText(text: orderNumber?.isNotEmpty == true ? 'PO-$orderNumber' : orderNumber.toString(), textAlign: TextAlign.left, fontSize: 17,),
           ),
           Expanded(
             flex: 3,
-            child: CustomText(text: location.toString(), fontSize: 16, textAlign: TextAlign.left,),
+            child: CustomText(text: location.toString(), fontSize: 17, textAlign: TextAlign.left,),
           ),
           Expanded(
             flex: 1,
-            child: CustomText(text: lines.toString(), fontSize: 16, textAlign: TextAlign.right,),
+            child: CustomText(text: lines.toString(), fontSize: 17, textAlign: TextAlign.right,),
           ),
         ],
       ),

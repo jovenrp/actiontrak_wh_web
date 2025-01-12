@@ -11,6 +11,9 @@ class ProfileState with _$ProfileState {
     @Default(false) bool isLoading,
     @Default(false) bool isUpdated,
     @Default(false) bool pickLimitSetting,
+    @Default(false) bool hasError,
+    @Default('') String? errorMessage,
+    @Default('') String? statusCode,
   }) = _ProfileState;
   factory ProfileState.fromJson(Map<String, Object?> json) =>
       _$ProfileStateFromJson(json);

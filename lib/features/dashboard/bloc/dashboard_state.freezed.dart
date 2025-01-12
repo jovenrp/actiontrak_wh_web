@@ -20,7 +20,9 @@ DashboardState _$DashboardStateFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$DashboardState {
-  bool get isLoading => throw _privateConstructorUsedError;
+  bool get hasError => throw _privateConstructorUsedError;
+  String? get errorMessage => throw _privateConstructorUsedError;
+  String? get statusCode => throw _privateConstructorUsedError;
 
   /// Serializes this DashboardState to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -38,7 +40,7 @@ abstract class $DashboardStateCopyWith<$Res> {
           DashboardState value, $Res Function(DashboardState) then) =
       _$DashboardStateCopyWithImpl<$Res, DashboardState>;
   @useResult
-  $Res call({bool isLoading});
+  $Res call({bool hasError, String? errorMessage, String? statusCode});
 }
 
 /// @nodoc
@@ -56,13 +58,23 @@ class _$DashboardStateCopyWithImpl<$Res, $Val extends DashboardState>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? isLoading = null,
+    Object? hasError = null,
+    Object? errorMessage = freezed,
+    Object? statusCode = freezed,
   }) {
     return _then(_value.copyWith(
-      isLoading: null == isLoading
-          ? _value.isLoading
-          : isLoading // ignore: cast_nullable_to_non_nullable
+      hasError: null == hasError
+          ? _value.hasError
+          : hasError // ignore: cast_nullable_to_non_nullable
               as bool,
+      errorMessage: freezed == errorMessage
+          ? _value.errorMessage
+          : errorMessage // ignore: cast_nullable_to_non_nullable
+              as String?,
+      statusCode: freezed == statusCode
+          ? _value.statusCode
+          : statusCode // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 }
@@ -75,7 +87,7 @@ abstract class _$$DashboardStateImplCopyWith<$Res>
       __$$DashboardStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({bool isLoading});
+  $Res call({bool hasError, String? errorMessage, String? statusCode});
 }
 
 /// @nodoc
@@ -91,13 +103,23 @@ class __$$DashboardStateImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? isLoading = null,
+    Object? hasError = null,
+    Object? errorMessage = freezed,
+    Object? statusCode = freezed,
   }) {
     return _then(_$DashboardStateImpl(
-      isLoading: null == isLoading
-          ? _value.isLoading
-          : isLoading // ignore: cast_nullable_to_non_nullable
+      hasError: null == hasError
+          ? _value.hasError
+          : hasError // ignore: cast_nullable_to_non_nullable
               as bool,
+      errorMessage: freezed == errorMessage
+          ? _value.errorMessage
+          : errorMessage // ignore: cast_nullable_to_non_nullable
+              as String?,
+      statusCode: freezed == statusCode
+          ? _value.statusCode
+          : statusCode // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -105,18 +127,25 @@ class __$$DashboardStateImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$DashboardStateImpl implements _DashboardState {
-  _$DashboardStateImpl({this.isLoading = false});
+  _$DashboardStateImpl(
+      {this.hasError = false, this.errorMessage = '', this.statusCode = ''});
 
   factory _$DashboardStateImpl.fromJson(Map<String, dynamic> json) =>
       _$$DashboardStateImplFromJson(json);
 
   @override
   @JsonKey()
-  final bool isLoading;
+  final bool hasError;
+  @override
+  @JsonKey()
+  final String? errorMessage;
+  @override
+  @JsonKey()
+  final String? statusCode;
 
   @override
   String toString() {
-    return 'DashboardState(isLoading: $isLoading)';
+    return 'DashboardState(hasError: $hasError, errorMessage: $errorMessage, statusCode: $statusCode)';
   }
 
   @override
@@ -124,13 +153,18 @@ class _$DashboardStateImpl implements _DashboardState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$DashboardStateImpl &&
-            (identical(other.isLoading, isLoading) ||
-                other.isLoading == isLoading));
+            (identical(other.hasError, hasError) ||
+                other.hasError == hasError) &&
+            (identical(other.errorMessage, errorMessage) ||
+                other.errorMessage == errorMessage) &&
+            (identical(other.statusCode, statusCode) ||
+                other.statusCode == statusCode));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, isLoading);
+  int get hashCode =>
+      Object.hash(runtimeType, hasError, errorMessage, statusCode);
 
   /// Create a copy of DashboardState
   /// with the given fields replaced by the non-null parameter values.
@@ -150,13 +184,20 @@ class _$DashboardStateImpl implements _DashboardState {
 }
 
 abstract class _DashboardState implements DashboardState {
-  factory _DashboardState({final bool isLoading}) = _$DashboardStateImpl;
+  factory _DashboardState(
+      {final bool hasError,
+      final String? errorMessage,
+      final String? statusCode}) = _$DashboardStateImpl;
 
   factory _DashboardState.fromJson(Map<String, dynamic> json) =
       _$DashboardStateImpl.fromJson;
 
   @override
-  bool get isLoading;
+  bool get hasError;
+  @override
+  String? get errorMessage;
+  @override
+  String? get statusCode;
 
   /// Create a copy of DashboardState
   /// with the given fields replaced by the non-null parameter values.
